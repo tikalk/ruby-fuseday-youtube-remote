@@ -9,5 +9,5 @@ end
 post "/form" do
   url = params[:url]
   id = url.match(/.+\?v=(.+)$/){ $1 }
-  haml: :result
+  haml :result
 end
