@@ -1,6 +1,8 @@
-require "bundler/setup"
-require "sinatra"
+require 'rubygems'
+require 'bundler'
+Bundler.require
+require 'sinatra'
 
 get "/" do
-  erb :controller
+  haml :controller
 end
