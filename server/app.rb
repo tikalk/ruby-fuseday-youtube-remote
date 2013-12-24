@@ -18,5 +18,8 @@ end
 post "/form" do
   url = params[:url]
   @id = url.match(/.+\?v=(.+)$/){ $1 }
+  puts "channel - "+$channel.inspect
+  puts 'subscribing to redis'
+  $channel.push("22222")
   haml :result
 end

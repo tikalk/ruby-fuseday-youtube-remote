@@ -6,6 +6,9 @@ require 'sinatra'
 require './app'
 
 def run(opts)
+
+  $channel = EM::Channel.new
+
   # Start he reactor
   EM.run do
 
@@ -44,14 +47,13 @@ def run(opts)
     end
 
     get '/client' do
-      @channel = EM::Channel.new
 
       @redis = EM::Hiredis.connect
       puts 'subscribing to redis'
       @redis.pubsub
       @redis.on(:message){|channel, message| 
         puts "redis -> #{channel}: #{message}"
-        @channel.push message 
+        $channel.push message 
       }
 
       EventMachine::WebSocket.start(:host => '0.0.0.0', :port => 1234) do |ws|
@@ -59,17 +61,17 @@ def run(opts)
         ws.onopen do
           puts 'client connected'
           puts 'subscribing to channel'
-          sid = @channel.subscribe do |msg| 
+          sid = $channel.subscribe do |msg| 
             puts "sending: #{msg}"
             ws.send msg
           end
 
           ws.onmessage { |msg|
-            @channel.push "<#{sid}>: #{msg}"
+            $channel.push "<#{sid}>: #{msg}"
           }
 
           ws.onclose {
-            @channel.unsubscribe(sid)
+            $channel.unsubscribe(sid)
           }
         end
       end
