@@ -3,20 +3,14 @@
 var myApp = angular.module('myApp', []);
 
 myApp.config(function($routeProvider) {
-    $routeProvider.when(
-    	'/remote',
-    	{
-    		templateUrl: 'partials/remote.html',
-    		controller: 'RemoteCtrl'
-    	});
-    $routeProvider.when(
-    	'/player',
+    $routeProvider
+        .when('/player',
     	{
     		templateUrl: 'partials/player.html',
     		controller: 'PlayerCtrl'
-    	});
-    $routeProvider.otherwise(
+    	})
+        .otherwise(
         {
-            redirectTo: '/view1'
+            redirectTo: '/player'
         });
 });

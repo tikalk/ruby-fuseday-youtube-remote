@@ -1,27 +1,33 @@
-"use strict";
+myApp.factory('wsService', function() {
+    var service = {};
 
-/*
- * Services can be defined as : "value", "service", "factory", "provider", or "constant".
- *
- * For simplicity only example of "value" and "service" are shown here. 
- */
+    service.connect = function() {
+        if(service.ws) { return; }
 
-// EXAMPLE OF CORRECT DECLARATION OF SERVICE AS A VALUE
-myApp.value('version', '0.1');
+        var ws = new WebSocket("ws://localhost:8000/socket/");
 
-// EXAMPLE OF CORRECT DECLARATION OF SERVICE
-// here is a declaration of simple utility function to know if an given param is a String.
-myApp.service("UtilSrvc", function () {
-    return {
-        isAString: function(o) {
-            return typeof o == "string" || (typeof o == "object" && o.constructor === String);
-        },
-        helloWorld : function(name) {
-        	var result = "Hum, Hello you, but your name is too weird...";
-        	if (this.isAString(name)) {
-        		result = "Hello, " + name;
-        	}
-        	return result;
+        ws.onopen = function() {
+            service.callback("Succeeded to open a connection");
+        };
+
+        ws.onerror = function() {
+            service.callback("Failed to open a connection");
         }
+
+        ws.onmessage = function(message) {
+            service.callback(message.data);
+        };
+
+        service.ws = ws;
     }
+
+    service.send = function(message) {
+        service.ws.send(message);
+    }
+
+    service.subscribe = function(callback) {
+        service.callback = callback;
+    }
+
+    return service;
 });
