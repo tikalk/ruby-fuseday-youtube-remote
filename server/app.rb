@@ -31,7 +31,7 @@ post "/form" do
 
   puts "channel - "+$channel.inspect
   puts 'subscribing to redis'
-  $channel.push("22222")
+  $channel.push({ youtube_video_id: @id }.to_json)
 
   redirect "/"  
 end

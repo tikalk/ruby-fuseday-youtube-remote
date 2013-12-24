@@ -53,7 +53,7 @@ def run(opts)
       @redis.pubsub
       @redis.on(:message){|channel, message| 
         puts "redis -> #{channel}: #{message}"
-        $channel.push message 
+        channel.push message 
       }
 
       EventMachine::WebSocket.start(:host => '0.0.0.0', :port => 1234) do |ws|
@@ -61,6 +61,7 @@ def run(opts)
         ws.onopen do
           puts 'client connected'
           puts 'subscribing to channel'
+
           sid = $channel.subscribe do |msg| 
             puts "sending: #{msg}"
             ws.send msg
