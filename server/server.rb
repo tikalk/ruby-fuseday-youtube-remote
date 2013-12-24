@@ -3,7 +3,7 @@ require "sinatra"
 require "haml"
 
 get "/" do
-  "Hello world!"
+  erb :controller
 end
 
 post "/form" do
