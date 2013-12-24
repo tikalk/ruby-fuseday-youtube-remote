@@ -4,7 +4,7 @@ myApp.factory('wsService', function() {
     service.connect = function() {
         if(service.ws) { return; }
 
-        var ws = new WebSocket("ws://localhost:8000/socket/");
+        var ws = new WebSocket("ws://localhost:1234/client");
 
         ws.onopen = function() {
             service.callback("Succeeded to open a connection");
@@ -15,7 +15,7 @@ myApp.factory('wsService', function() {
         }
 
         ws.onmessage = function(message) {
-            service.callback(message.data);
+            service.callback(JSON.parse(message.data));
         };
 
         service.ws = ws;
