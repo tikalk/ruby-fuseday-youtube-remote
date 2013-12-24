@@ -8,7 +8,5 @@ myApp.controller("PlayerCtrl" ,function ($scope, wsService) {
         $scope.$apply();
     });
 
-    $scope.connect = function() {
-        wsService.connect();
-    }
+    wsService.connect();
 });

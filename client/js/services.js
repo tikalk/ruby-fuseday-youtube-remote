@@ -1,4 +1,4 @@
-app.factory('weService', function() {
+myApp.factory('wsService', function() {
     var service = {};
 
     service.connect = function() {
