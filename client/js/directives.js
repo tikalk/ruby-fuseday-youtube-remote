@@ -14,10 +14,4 @@ myApp.directive('inputtext', function ($timeout) {
     }
 });
 
-myApp.directive('version', function(version) {
-  return function(scope, elm, attrs) {
-    elm.text(version);
-  };
-});
-
 // you may add as much directives as you want below
