@@ -1,5 +1,6 @@
-#require 'em-websocket'
-#require 'em-hiredis'
+require 'em-websocket'
+require 'em-hiredis'
+
 
 before do
   puts '[Params]'
@@ -8,6 +9,10 @@ end
 
 get "/" do
   haml :controller
+end
+
+get "/test" do
+  erb :client
 end
 
 post "/form" do
